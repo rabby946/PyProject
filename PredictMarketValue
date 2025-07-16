@@ -1,0 +1,62 @@
+import math
+
+all_ages = [] 
+all_paces = []
+all_shooting = []
+all_passing = []
+all_dribbling = []
+all_defending = []
+all_physicality = []
+all_marketValue = []
+def add(age, pac, sho, pas, dri, deff, phy, marketValue):
+    all_ages.append(age)
+    all_paces.append(pac)
+    all_shooting.append(sho)
+    all_passing.append(pas)
+    all_dribbling.append(dri)
+    all_defending.append(deff)
+    all_physicality.append(phy)
+    all_marketValue.append(marketValue)
+def dist(age, pac, sho, pas, dri, deff, phy, index):
+    return math.sqrt((age - all_ages[index])*(age - all_ages[index]) + (pac - all_paces[index])*(pac - all_paces[index]) + (sho - all_shooting[index])*(sho - all_shooting[index]) + (pas - all_passing[index])*(pas - all_passing[index]) + (dri - all_dribbling[index])*(dri - all_dribbling[index]) + (deff - all_defending[index])*(deff - all_defending[index]) + (phy - all_physicality[index])*(phy - all_physicality[index]))
+
+def do_all(age, pac, sho, pas, dri, deff, phy):
+    result = []
+    for i in range(len(all_ages)):
+        distance = dist(age, pac, sho, pas, dri, deff, phy, i)
+        value = all_marketValue[i]
+        result.append((distance, value))
+    result.sort()
+    newResult = []
+    sum = 0
+    for i in range(0, len(result)):
+        sum += result[i][1]
+        newResult.append(sum / (i + 1))
+    newResult.sort ()
+    print('The lowest market value is : ', newResult[0])
+    print('The highest market value is : ', newResult[len(newResult) - 1])
+    return (newResult[0] + newResult[1]) / 2
+
+
+
+Data = "demoData"
+with open("existingPlayerData.txt", 'r') as f:
+    while len(Data) > 0:
+        Data = f.readline()
+        l = Data.split()
+        if len(l) == 0:
+            break
+        add(int(l[1]), int(l[2]), int(l[3]), int(l[4]), int(l[5]), int(l[6]), int(l[7]), float(l[8]))
+
+while(True):
+    print("Enter Your player Information : ")
+    age = int(input("Enter your age: "))
+    pac = int(input("Enter your pace: "))
+    sho = int(input("Enter your shooting: "))
+    pas = int(input("Enter your passing: "))
+    dri = int(input("Enter your dribbling: "))
+    deff = int(input("Enter your defending: "))
+    phy = int(input("Enter your physicality: "))
+    marketValue = do_all(age, pac, sho, pas, dri, deff, phy)
+    add(age, pac, sho, pas, dri, deff, phy, marketValue)
+    
