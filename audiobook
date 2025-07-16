@@ -1,0 +1,12 @@
+import pyttsx3
+from PyPDF2 import PdfReader
+reader = PdfReader("cv.pdf")
+friend = pyttsx3.init()
+voices = friend.getProperty('voices')
+friend.setProperty('voice', voices[1].id) 
+page = reader.pages[0]
+text = page.extract_text()
+friend.setProperty('rate', 250)
+friend.setProperty('volume', 1.)
+friend.say(text)
+friend.runAndWait()
